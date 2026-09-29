@@ -4,7 +4,6 @@
 
 [![Android](https://img.shields.io/badge/Android-1.6.4-3DDC84?logo=android&logoColor=white)](Mobile/)
 [![Windows](https://img.shields.io/badge/Windows-1.0.0-0078D4?logo=windows&logoColor=white)](Desktop/)
-![Sin servidor propio](https://img.shields.io/badge/servidor-ninguno-lightgrey)
 
 ## ¿Qué hace?
 
