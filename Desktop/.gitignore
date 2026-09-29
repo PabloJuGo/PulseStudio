@@ -1,0 +1,37 @@
+# Salida de compilación y empaquetado
+build/
+dist/
+target/
+out/
+*.class
+*.jar
+
+# Binarios: se publican en Releases, no en el repo
+*.exe
+*.msi
+*.zip
+
+# Logs
+*.log
+
+# Pruebas e2e
+node_modules/
+tools/e2e/output/
+tools/e2e/node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# Firma: NUNCA subir certificados
+*.pfx
+*.p12
+*.jks
+
+# Sistema
+.DS_Store
+Thumbs.db

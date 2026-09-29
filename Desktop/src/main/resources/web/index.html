@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Pulse Studio para escritorio: packs TikTok de actualidad tecnológica con guion, fotografías, miniatura con IA y editor de vídeo.">
+<title>Pulse Studio</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body class="desktop">
+<header class="sitehead"><div class="wrap headrow"><div class="logo"><span class="logoicon" aria-hidden="true">↗</span> PULSE<span style="color:var(--aqua)">STUDIO</span></div><button id="openSettingsBtn" class="header-settings" type="button" aria-label="Configuración" aria-controls="settingsScreen" aria-haspopup="dialog" aria-expanded="false"><span aria-hidden="true">⚙</span><span class="settings-button-label">Configuración</span></button></div></header>
+<section class="settings-screen hidden" id="settingsScreen" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+ <div class="settings-wrap">
+  <div class="settings-top"><button id="closeSettingsBtn" class="btn ghost small" type="button">← Volver</button><span class="settings-brand">PULSE<span style="color:var(--aqua)">STUDIO</span></span></div>
+  <div class="settings-content">
+   <h1 id="settingsTitle">Configuración</h1><p class="muted">Configura los servicios que usa Pulse Studio para generar el guion, localizar las imágenes y crear el fondo de la miniatura.</p>
+   <div class="settings-summary"><strong>Estado de servicios</strong><div class="service-dots"><span class="service-mini">Groq</span><span class="service-state" data-service-state="groq" data-state="off">Sin configurar</span><span class="service-mini">Pexels</span><span class="service-state" data-service-state="pexels" data-state="off">Sin configurar</span><span class="service-mini">Hugging Face</span><span class="service-state" data-service-state="hf" data-state="off">Sin configurar</span></div></div>
+   <div class="settings-grid" id="settings">
+    <section class="settings-card" aria-labelledby="groqTitle"><div class="service-head"><div><h2 id="groqTitle">Groq</h2><p>Generación del guion en español.</p></div><span class="service-state" data-service-state="groq" data-state="off">Sin configurar</span></div><div class="field"><label for="groqKey">API Key</label><div class="key-wrap"><input id="groqKey" type="password" autocomplete="off" spellcheck="false" placeholder="gsk_…"><button class="reveal-btn" type="button" data-reveal="groqKey">Mostrar</button></div></div><div class="field" style="margin-top:12px"><label for="modelName">Modelo</label><select id="modelName"><option value="openai/gpt-oss-20b" selected>GPT-OSS 20B (predeterminado)</option><option value="openai/gpt-oss-120b">GPT-OSS 120B</option></select></div><p class="hint">La clave se guarda cifrada en este equipo y nunca llega a la interfaz ni a los archivos exportados.</p><div class="service-actions"><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Crear una clave ↗</a><button id="groqTestBtn" class="btn alt small" type="button">Probar conexión</button></div></section>
+    <section class="settings-card" aria-labelledby="pexelsTitle"><div class="service-head"><div><h2 id="pexelsTitle">Pexels</h2><p>Fotografías verticales de recurso.</p></div><span class="service-state" data-service-state="pexels" data-state="off">Sin configurar</span></div><div class="field"><label for="pexelsKey">API Key</label><div class="key-wrap"><input id="pexelsKey" type="password" autocomplete="off" spellcheck="false" placeholder="Clave personal de Pexels"><button class="reveal-btn" type="button" data-reveal="pexelsKey">Mostrar</button></div></div><p class="hint">Se utiliza únicamente para localizar las seis fotografías del pack.</p><div class="service-actions"><a href="https://www.pexels.com/api/" target="_blank" rel="noopener noreferrer">Obtener una clave ↗</a><button id="pexelsTestBtn" class="btn alt small" type="button">Probar conexión</button></div></section>
+    <section class="settings-card" aria-labelledby="hfTitle"><div class="service-head"><div><h2 id="hfTitle">Hugging Face</h2><p>Fondo con IA para la miniatura.</p></div><span class="service-state" data-service-state="hf" data-state="off">Sin configurar</span></div><div class="field"><label for="hfKey">Access Token</label><div class="key-wrap"><input id="hfKey" type="password" autocomplete="off" spellcheck="false" placeholder="hf_…"><button class="reveal-btn" type="button" data-reveal="hfKey">Mostrar</button></div></div><div class="field" style="margin-top:12px"><label for="hfModel">Modelo de imagen</label><select id="hfModel"><option value="black-forest-labs/FLUX.1-schnell" selected>FLUX.1 [schnell] · rápido (predeterminado)</option><option value="stabilityai/stable-diffusion-xl-base-1.0">Stable Diffusion XL</option><option value="stabilityai/stable-diffusion-3-medium-diffusers">Stable Diffusion 3 Medium</option></select></div><p class="hint">Usa un token «Fine-grained» con el permiso «Make calls to Inference Providers». Cada fondo consume créditos del plan gratuito mensual de tu cuenta. Opcional: sin token puedes usar una imagen del pack como fondo.</p><div class="service-actions"><a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener noreferrer">Crear un token ↗</a><button id="hfTestBtn" class="btn alt small" type="button">Probar conexión</button></div></section>
+   </div>
+   <section class="settings-card output-card-settings" aria-labelledby="outputTitle"><div class="service-head"><div><h2 id="outputTitle">Carpeta de salida</h2><p>Dónde se guardan guiones, imágenes, miniaturas y vídeos.</p></div></div><div class="field"><label for="outputDir">Ruta</label><div class="path-row"><input id="outputDir" type="text" readonly spellcheck="false" placeholder="Documentos\PulseStudio"><button id="chooseOutputBtn" class="btn alt small" type="button">📁 Cambiar…</button><button id="openOutputBtn" class="btn ghost small" type="button">Abrir</button></div></div><p class="hint">Cada pack se guarda en su propia subcarpeta con la fecha y el titular.</p></section>
+   <p class="privacy">Las claves se guardan cifradas (AES-256-GCM) en tu perfil de Windows. Solo el motor local de Pulse Studio las usa para llamar a Groq, Pexels y Hugging Face: nunca se envían a la interfaz.</p>
+   <div id="keyStatus" class="status" role="status" aria-live="polite">Preparando configuración…</div>
+   <div class="settings-danger"><button id="clearKeysBtn" type="button" class="btn danger small">Eliminar todas las claves</button></div>
+   <div class="settings-save"><button id="saveKeysBtn" type="button" class="btn">Guardar cambios</button></div>
+  </div>
+ </div>
+</section>
+<main class="wrap">
+ <section class="app-intro"><span class="eyebrow"><span class="dot"></span> Flujo guiado</span><h1>Crea tu <span>pack de TikTok</span></h1><p>Elige una noticia y genera el guion y las seis imágenes. Después, crea la miniatura con IA y monta tu vídeo narrado, todo desde tu ordenador.</p></section>
+ <nav class="stepper" aria-label="Progreso del pack">
+  <div class="step-tab" id="stepTab1" data-state="active"><span class="step-dot">1</span><span class="step-copy"><strong>Noticia</strong><span>Elige la fuente</span></span></div>
+  <div class="step-tab" id="stepTab2" data-state="pending"><span class="step-dot">2</span><span class="step-copy"><strong>Generar</strong><span>Crea el contenido</span></span></div>
+  <div class="step-tab" id="stepTab3" data-state="pending"><span class="step-dot">3</span><span class="step-copy"><strong>Exportar</strong><span>Guarda el pack</span></span></div>
+  <div class="step-tab" id="stepTab4" data-state="pending"><span class="step-dot">4</span><span class="step-copy"><strong>Miniatura</strong><span>Portada con IA</span></span></div>
+  <div class="step-tab" id="stepTab5" data-state="pending"><span class="step-dot">5</span><span class="step-copy"><strong>Vídeo</strong><span>Monta el reel</span></span></div>
+ </nav>
+ <section id="stepPanel1" class="wizard-panel"><div class="panel" id="searchSection">
+  <div class="paneltop"><div><div class="step-kicker">Paso 1 de 5</div><h2>Encuentra una noticia</h2><p class="muted">Busca por tema o explora las fuentes disponibles.</p></div><span class="pill">NOTICIA</span></div>
+  <div class="searchbar"><div class="field"><label for="searchInput">¿Sobre qué quieres crear el vídeo?</label><input id="searchInput" placeholder="Ej.: ransomware, Nvidia, modelos de IA…" maxlength="100" autocomplete="off"></div><button id="searchBtn" type="button" class="btn">Buscar noticias</button></div>
+  <div class="catgrid" role="group" aria-label="Categorías"><button class="cat" type="button" data-category="all" aria-pressed="true">Todas</button><button class="cat" type="button" data-category="tech" aria-pressed="false">Tech</button><button class="cat" type="button" data-category="cyber" aria-pressed="false">Ciberseguridad</button><button class="cat" type="button" data-category="ai" aria-pressed="false">IA</button><button class="cat" type="button" data-category="hardware" aria-pressed="false">Hardware</button></div>
+  <button id="filtersToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="filtersBox">☷ Filtros de búsqueda</button>
+  <div id="filtersBox" class="newsfilters hidden"><div class="field"><label for="sourceSelect">Fuente</label><select id="sourceSelect"><option value="all">Todas las fuentes</option><option value="hn">Hacker News</option><option value="hackread">HackRead</option><option value="krebs">KrebsOnSecurity</option><option value="xataka">Xataka</option></select></div><div class="field"><label for="sortSelect">Orden</label><select id="sortSelect"><option value="newest">Más recientes primero</option><option value="oldest">Más antiguas primero</option></select></div></div>
+  <div class="actions-main"><button id="manualBtn" type="button" class="manual-link">¿Ya tienes una noticia? Introducir manualmente →</button></div>
+  <div id="searchStatus" class="status" role="status" aria-live="polite">Elige una categoría o escribe un tema y pulsa «Buscar noticias».</div><div id="feedList" class="feedlist" aria-label="Resultados"><div class="empty">Las noticias aparecerán aquí.</div></div>
+ </div></section>
+ <section id="stepPanel2" class="wizard-panel hidden"><div class="panel" id="editorSection">
+  <div class="backline"><button id="backToSearchBtn" class="backlink" type="button">← Cambiar noticia</button></div>
+  <div class="paneltop"><div><div class="step-kicker">Paso 2 de 5</div><h2>Prepara el contenido</h2><p class="muted">Comprueba la noticia y deja que Pulse Studio haga el resto.</p></div><span class="pill">GENERAR</span></div>
+  <div class="previewbox" id="preview"><div class="empty">Selecciona una noticia para continuar.</div></div>
+  <div id="manualFields" class="hidden"><div class="field"><label for="manualTitle">Titular *</label><input id="manualTitle" maxlength="250" placeholder="Titular de la noticia"></div><div class="twofields" style="margin-top:11px"><div class="field"><label for="manualSource">Medio *</label><input id="manualSource" maxlength="100" placeholder="Ej.: Xataka"></div><div class="field"><label for="manualDate">Fecha</label><input id="manualDate" type="date"></div></div><div class="field" style="margin-top:11px"><label for="manualUrl">URL original *</label><input id="manualUrl" type="url" placeholder="https://medio.example/noticia" maxlength="1000"></div></div>
+  <details class="article-details"><summary>Contenido del artículo · automático / opcional</summary><div class="inner"><div class="field"><label for="articleText">Texto recuperado</label><textarea id="articleText" rows="8" maxlength="16000" placeholder="Pulse Studio intentará recuperar el artículo automáticamente. Si el medio bloquea la extracción, puedes pegar aquí el texto."></textarea></div><p class="hint">Normalmente no necesitas tocar este campo.</p></div></details>
+  <button id="generateBtn" class="btn wide" type="button">✦ Generar pack de TikTok</button>
+  <div id="genStatus" class="status" role="status" aria-live="polite">Cuando generes, se leerá la noticia, se creará el guion y se buscarán seis imágenes.</div><div class="progress" aria-label="Progreso de generación"><span id="progressBar"></span></div>
+ </div></section>
+ <section id="stepPanel3" class="wizard-panel hidden"><div class="panel" id="outputSection">
+  <div class="backline"><button id="backToEditorBtn" class="backlink" type="button">← Volver al contenido</button></div>
+  <div class="paneltop"><div><div class="step-kicker">Paso 3 de 5</div><h2>Tu pack está listo</h2><p class="muted">Revisa, copia y guarda cada parte en tu carpeta de salida.</p></div><span class="pill">EXPORTAR</span></div>
+  <div class="success-banner"><span class="success-icon">✓</span><div><strong>Contenido generado correctamente</strong><div class="muted">Guion editable + seis imágenes JPEG verticales 1080 × 1920.</div></div></div>
+  <div class="output-grid">
+   <div class="output-card"><div class="output-card-head"><label for="scriptOutput">Guion TikTok · editable</label><button id="copyBtn" class="btn alt small" type="button" disabled>⧉ Copiar</button></div><textarea id="scriptOutput" class="outarea" rows="15" placeholder="Aquí aparecerá el guion estructurado." disabled></textarea><p class="hint">Comprueba cifras, fechas y nombres importantes antes de publicar.</p><div class="output-actions"><button id="txtBtn" class="btn alt" type="button" disabled>↓ Guardar TXT</button></div></div>
+   <div class="output-card"><div class="output-card-head"><h3>Imágenes de recurso</h3><span class="image-total" id="imageCount">0/6</span></div><div id="pictureGrid" class="pictures"><div class="empty" style="grid-column:1/-1">Las seis imágenes aparecerán aquí.</div></div><p class="hint">Puedes guardar una imagen individual con ↓ o las seis de una vez.</p><div class="output-actions"><button id="imagesBtn" class="btn" type="button" disabled>↓ Guardar las 6 imágenes</button></div><p class="hint">Fotografías de recurso proporcionadas por <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer">Pexels</a>.</p></div>
+  </div>
+  <div class="next-card"><div><strong>Siguiente: miniatura y vídeo</strong><span class="muted">Crea la portada con tu foto y monta el vídeo narrado sobre estas seis imágenes.</span></div><div class="next-actions"><button id="toThumbBtn" class="btn" type="button">Crear miniatura →</button><button id="toVideoFromPackBtn" class="btn ghost" type="button">Ir al editor de vídeo</button></div></div>
+ </div></section>
+ <section id="stepPanel4" class="wizard-panel hidden"><div class="panel" id="thumbSection">
+  <div class="backline"><button id="backToPackBtn" class="backlink" type="button">← Volver al pack</button></div>
+  <div class="paneltop"><div><div class="step-kicker">Paso 4 de 5</div><h2>Miniatura con IA</h2><p class="muted">Tu foto recortada en tu propio equipo, un fondo generado a partir de la noticia y el titular.</p></div><span class="pill">MINIATURA</span></div>
+  <div class="studio">
+   <div class="stage-col"><div class="stage"><canvas id="thumbCanvas" width="1080" height="1920" role="img" aria-label="Vista previa de la miniatura"></canvas></div><p class="hint center">1080 × 1920 · la vista previa se actualiza al momento.</p></div>
+   <div class="controls">
+    <div class="control-group"><h3><span class="num">1</span> Tu foto</h3>
+     <div class="filepick"><input id="thumbPhoto" class="file-input" type="file" accept="image/*"><label for="thumbPhoto" class="btn alt small">📷 Elegir foto</label><span id="thumbPhotoName" class="file-name">Ninguna foto seleccionada</span></div>
+     <p class="hint">Mejor un retrato con buena luz. El recorte se hace en tu propio equipo con MediaPipe: la foto no se envía a ningún servidor.</p></div>
+    <div class="control-group"><h3><span class="num">2</span> Fondo</h3>
+     <div class="field"><label for="thumbBgSource">Origen del fondo</label><select id="thumbBgSource"><option value="ai" selected>Generado con IA (Hugging Face)</option><option value="pack-0">Imagen 1 del pack</option><option value="pack-1">Imagen 2 del pack</option><option value="pack-2">Imagen 3 del pack</option><option value="pack-3">Imagen 4 del pack</option><option value="pack-4">Imagen 5 del pack</option><option value="pack-5">Imagen 6 del pack</option></select></div>
+     <details class="article-details"><summary>Prompt visual · automático / editable</summary><div class="inner"><label for="thumbPrompt">Prompt en inglés para el generador</label><textarea id="thumbPrompt" rows="4" maxlength="900" placeholder="Groq escribirá aquí el prompt al crear la miniatura."></textarea><button id="thumbBgBtn" class="btn alt small" type="button" style="margin-top:9px">↻ Regenerar solo el fondo</button></div></details></div>
+    <div class="control-group"><h3><span class="num">3</span> Titular y ajustes</h3>
+     <div class="field"><label for="thumbHeadline">Titular</label><input id="thumbHeadline" maxlength="70" placeholder="Se propondrá automáticamente" autocomplete="off"></div>
+     <div class="field" style="margin-top:10px"><label for="thumbHighlight">Palabra en color</label><input id="thumbHighlight" maxlength="30" placeholder="Opcional" autocomplete="off"></div>
+     <div class="range-row"><label for="thumbScale">Tamaño de tu foto</label><output id="thumbScaleOut" for="thumbScale">62 %</output><input id="thumbScale" type="range" min="35" max="95" step="1" value="62"></div>
+     <div class="range-row"><label for="thumbX">Posición horizontal</label><output id="thumbXOut" for="thumbX">0</output><input id="thumbX" type="range" min="-100" max="100" step="1" value="0"></div>
+     <div class="range-row"><label for="thumbDim">Oscurecer el fondo</label><output id="thumbDimOut" for="thumbDim">25 %</output><input id="thumbDim" type="range" min="0" max="70" step="1" value="25"></div></div>
+    <button id="thumbCreateBtn" class="btn wide" type="button">✦ Crear miniatura</button>
+    <div id="thumbStatus" class="status" role="status" aria-live="polite">Elige tu foto y pulsa «Crear miniatura»: Groq propone el titular y el prompt, Hugging Face genera el fondo y el recorte se hace en tu equipo.</div><div class="progress" aria-label="Progreso de la miniatura"><span id="thumbProgress"></span></div>
+    <div class="inline-actions"><button id="thumbJpgBtn" class="btn" type="button" disabled>↓ Guardar JPG</button><button id="thumbPngBtn" class="btn alt" type="button" disabled>↓ Guardar PNG</button></div>
+   </div>
+  </div>
+  <div class="next-card"><div><strong>Siguiente: editor de vídeo</strong><span class="muted">Monta tu vídeo narrado sobre las seis imágenes del pack.</span></div><button id="toVideoBtn" class="btn alt" type="button">Ir al editor de vídeo →</button></div>
+ </div></section>
+ <section id="stepPanel5" class="wizard-panel hidden"><div class="panel" id="videoSection">
+  <div class="backline"><button id="backToThumbBtn" class="backlink" type="button">← Volver a la miniatura</button></div>
+  <div class="paneltop"><div><div class="step-kicker">Paso 5 de 5</div><h2>Editor de vídeo</h2><p class="muted">Tu vídeo narrado sobre las seis imágenes del pack, con el fondo eliminado en tu propio equipo.</p></div><span class="pill">VÍDEO</span></div>
+  <div id="videoNeedsPack" class="note hidden" style="margin-bottom:14px">Para montar el vídeo necesitas las seis imágenes del pack: genera primero el pack en el paso 2.</div>
+  <div class="studio">
+   <div class="stage-col"><div class="stage"><canvas id="videoCanvas" width="720" height="1280" role="img" aria-label="Vista previa del vídeo"></canvas><video id="videoSource" class="source-video" playsinline preload="auto" aria-hidden="true" tabindex="-1"></video><div id="videoEmpty" class="stage-empty">Elige tu vídeo narrado para ver aquí la vista previa.</div></div>
+    <div class="player-row"><button id="videoPlayBtn" class="btn alt small" type="button" aria-label="Reproducir" disabled>▶</button><input id="videoSeek" type="range" min="0" max="0" step="0.01" value="0" aria-label="Posición del vídeo" disabled><span id="videoTime" class="time-label">0:00 / 0:00</span></div></div>
+   <div class="controls">
+    <div class="control-group"><h3><span class="num">1</span> Tu vídeo narrado</h3>
+     <div class="filepick"><input id="videoFile" class="file-input" type="file" accept="video/mp4,video/webm,video/*"><label for="videoFile" class="btn alt small">🎬 Elegir vídeo</label><span id="videoFileName" class="file-name">Ningún vídeo seleccionado</span></div>
+     <p class="hint">MP4 o WebM de hasta 10 minutos. Se procesa en tu equipo: no se sube a ningún servidor.</p></div>
+    <div class="control-group"><h3><span class="num">2</span> Sincroniza las 6 imágenes</h3>
+     <div id="timelineBar" class="tl-bar" aria-hidden="true"><div id="timelineHead" class="tl-head"></div></div>
+     <div id="timelineRows" class="tl-rows"></div>
+     <button id="videoEvenBtn" class="btn ghost small" type="button" style="margin-top:10px" disabled>⇆ Repartir por igual</button>
+     <p class="hint">Arrastra una imagen de la barra con el ratón para cambiar el orden. Con los controles decides cuándo entra cada una, o reproduce el vídeo y haz clic en «◎ Aquí» en el momento exacto.</p></div>
+    <div class="control-group"><h3><span class="num">3</span> Sujeto y formato</h3>
+     <label class="check-row" for="videoCutout"><input id="videoCutout" type="checkbox" checked> Eliminar el fondo de tu vídeo</label>
+     <div class="range-row"><label for="videoScale">Tamaño</label><output id="videoScaleOut" for="videoScale">80 %</output><input id="videoScale" type="range" min="40" max="100" step="1" value="80"></div>
+     <div class="range-row"><label for="videoX">Posición horizontal</label><output id="videoXOut" for="videoX">0</output><input id="videoX" type="range" min="-100" max="100" step="1" value="0"></div>
+     <div class="field" style="margin-top:10px"><label for="videoQuality">Calidad de exportación</label><select id="videoQuality"><option value="720" selected>720 × 1280 · exportación rápida</option><option value="1080">1080 × 1920 · máxima calidad</option></select></div></div>
+    <div class="control-group"><h3><span class="num">4</span> Subtítulos automáticos</h3>
+     <div class="field"><label for="captionLang">Idioma de la voz</label><select id="captionLang"><option value="es" selected>Español</option><option value="en">Inglés</option><option value="">Detectar automáticamente</option></select></div>
+     <button id="captionGenBtn" class="btn alt small" type="button" style="margin-top:10px" disabled>✦ Generar subtítulos</button>
+     <div id="captionStatus" class="status" role="status" aria-live="polite">Se transcribe el audio de tu vídeo con Groq (Whisper), usando la misma clave que el guion. La imagen del vídeo no sale de tu equipo.</div>
+     <label class="check-row" for="captionOn"><input id="captionOn" type="checkbox" disabled> Mostrar subtítulos en el vídeo</label>
+     <div class="field" style="margin-top:10px"><label for="captionFont">Tipo de letra</label><select id="captionFont"><option value="bold" selected>Negrita (estilo TikTok)</option><option value="condensed">Condensada</option><option value="serif">Con serifa</option><option value="mono">Monoespaciada</option><option value="hand">Manuscrita</option></select></div>
+     <div class="field" style="margin-top:10px"><label for="captionStyle">Estilo</label><select id="captionStyle"><option value="outline" selected>Contorno negro</option><option value="box">Caja oscura</option><option value="shadow">Sombra</option></select></div>
+     <div class="field" style="margin-top:10px"><span class="label" id="captionColorLabel">Color</span><div id="captionSwatches" class="swatches" role="group" aria-labelledby="captionColorLabel"><button type="button" class="swatch" data-color="#ffffff" style="background:#ffffff" aria-label="Blanco" aria-pressed="true"></button><button type="button" class="swatch" data-color="#ffe14d" style="background:#ffe14d" aria-label="Amarillo" aria-pressed="false"></button><button type="button" class="swatch" data-color="#79f5d1" style="background:#79f5d1" aria-label="Turquesa" aria-pressed="false"></button><button type="button" class="swatch" data-color="#ff6fb5" style="background:#ff6fb5" aria-label="Rosa" aria-pressed="false"></button><button type="button" class="swatch" data-color="#ff9f43" style="background:#ff9f43" aria-label="Naranja" aria-pressed="false"></button><button type="button" class="swatch" data-color="#7cc4ff" style="background:#7cc4ff" aria-label="Azul" aria-pressed="false"></button><input id="captionColorCustom" type="color" value="#ffffff" aria-label="Otro color"></div></div>
+     <label class="check-row" for="captionUpper" style="margin-top:12px"><input id="captionUpper" type="checkbox" checked> Texto en MAYÚSCULAS</label>
+     <div class="range-row"><label for="captionSize">Tamaño</label><output id="captionSizeOut" for="captionSize">7.5 %</output><input id="captionSize" type="range" min="4" max="12" step="0.5" value="7.5"></div>
+     <div class="range-row"><label for="captionY">Posición vertical</label><output id="captionYOut" for="captionY">72 %</output><input id="captionY" type="range" min="8" max="92" step="1" value="72"></div>
+     <div class="range-row"><label for="captionWords">Palabras por subtítulo</label><output id="captionWordsOut" for="captionWords">3</output><input id="captionWords" type="range" min="1" max="6" step="1" value="3"></div>
+     <details class="article-details"><summary>Revisar y corregir textos (<span id="captionCount">0</span>)</summary><div class="inner"><div id="captionList" class="cap-list"></div><p class="hint">Haz clic en el tiempo para ir a ese momento. Si cambias «Palabras por subtítulo», los textos se rehacen desde la transcripción.</p></div></details></div>
+    <div class="inline-actions"><button id="videoExportBtn" class="btn" type="button" disabled>● Exportar vídeo</button><button id="videoCancelBtn" class="btn ghost cancel-btn hidden" type="button">■ Cancelar</button></div>
+    <div id="videoStatus" class="status" role="status" aria-live="polite">La exportación procesa tu vídeo fotograma a fotograma: el resultado siempre sale fluido a 30 fps, aunque en equipos modestos tarde algo más que la duración del vídeo.</div><div class="progress" aria-label="Progreso de exportación"><span id="videoProgress"></span></div>
+    <div id="videoResult" class="output-card hidden"><div class="output-card-head"><h3>Vídeo exportado</h3></div><video id="videoResultPlayer" class="result-video" controls playsinline preload="metadata"></video><p id="videoResultInfo" class="hint"></p><div class="output-actions"><button id="videoSaveBtn" class="btn" type="button" disabled>↓ Guardar vídeo</button></div></div>
+   </div>
+  </div>
+ </div></section>
+</main>
+<footer><div class="wrap footerrow"><span>Pulse Studio · JMOrdenadores</span><span>© 2026 José Miguel Gómez Fernández</span></div></footer>
+</body>
+</html>

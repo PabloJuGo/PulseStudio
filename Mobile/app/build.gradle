@@ -1,0 +1,48 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.pulsestudio.app'
+    compileSdk 36
+    buildToolsVersion '35.0.0'
+    defaultConfig {
+        applicationId 'com.pulsestudio.app'
+        minSdk 24
+        targetSdk 36
+        versionCode 22
+        versionName '1.6.4'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildTypes {
+        release { minifyEnabled false }
+    }
+    lint { abortOnError true }
+}
+dependencies {
+    implementation 'androidx.webkit:webkit:1.16.0'
+    implementation 'androidx.core:core:1.17.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+}
+
+// Motor local de recorte (MediaPipe Tasks Vision). Los binarios se descargan una vez con
+// `node tools/fetch-mediapipe.cjs` (versión fijada y verificada). Sin ellos no se empaqueta la APK.
+def mediapipeDir = file('src/main/assets/www/vendor/mediapipe')
+def mediapipeFiles = ['vision_bundle.js', 'selfie_segmenter.tflite',
+    'wasm/vision_wasm_internal.js', 'wasm/vision_wasm_internal.wasm',
+    'wasm/vision_wasm_nosimd_internal.js', 'wasm/vision_wasm_nosimd_internal.wasm']
+tasks.register('checkMediaPipeAssets') {
+    description = 'Comprueba que los archivos locales de MediaPipe están en assets/www/vendor/mediapipe.'
+    doLast {
+        def missing = mediapipeFiles.findAll { !new File(mediapipeDir, it).isFile() }
+        if (!missing.isEmpty()) {
+            throw new GradleException("Faltan archivos locales de MediaPipe: ${missing.join(', ')}.\n" +
+                "Ejecuta una vez desde la raíz del proyecto: node tools/fetch-mediapipe.cjs")
+        }
+    }
+}
+tasks.matching { it.name ==~ /merge\w*Assets/ }.configureEach { dependsOn 'checkMediaPipeAssets' }

@@ -1,0 +1,32 @@
+# Gradle / Android Studio
+.gradle/
+build/
+app/build/
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Binarios: se publican en Releases, no en el repo
+*.apk
+*.aab
+*.ap_
+
+# Firma: NUNCA subir la keystore ni sus contraseñas
+*.jks
+*.keystore
+keystore.properties
+
+# Pruebas web y e2e
+node_modules/
+tests/e2e-output/
+
+# Motor de recorte: se instala con `node tools/fetch-mediapipe.cjs` (~19,5 MB).
+# Si quieres que el proyecto compile nada más clonarlo, borra esta línea y súbelo.
+app/src/main/assets/www/vendor/mediapipe/
+
+# Sistema
+.DS_Store
+Thumbs.db

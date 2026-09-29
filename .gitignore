@@ -1,0 +1,14 @@
+# Sistema y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# Secretos: nunca al repo
+*.jks
+*.keystore
+keystore.properties
+.env
+*.pem
