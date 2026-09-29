@@ -97,6 +97,6 @@ Cada carpeta tiene su propio README con los requisitos, los pasos de compilació
 
 ## Licencias y créditos
 
-- **Licencia del proyecto:** _pendiente de elegir_. Añade un archivo `LICENSE` a la raíz y actualiza esta línea.
+- **Licencia del proyecto:** [MIT](LICENSE) © 2026 Pablo Juzgado.
 - Componentes de terceros: MediaPipe Tasks Vision y el modelo Selfie Segmenter (Apache-2.0), Mediabunny (MPL-2.0), AndroidX y Gradle (Apache-2.0). Detalle en [`Mobile/THIRD_PARTY_NOTICES.md`](Mobile/THIRD_PARTY_NOTICES.md).
 - Las fotografías de Pexels mantienen sus propias condiciones y atribución. Groq, Hugging Face, Jina Reader y las fuentes de noticias tienen sus propios términos de uso.
